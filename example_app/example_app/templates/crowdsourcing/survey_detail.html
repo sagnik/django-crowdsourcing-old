@@ -1,0 +1,49 @@
+{% load crowdsourcing %}
+<html>
+<head>
+  <title>{{ survey.title }}</title>
+  <script language="javascript" type="text/javascript">
+    var r1="&lt;";
+    var r2="&gt;";
+    var r3="&quot;";
+    var newstr; 
+    window.onload=function(){
+     newstr=document.body.innerHTML.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');
+     document.body.innerHTML=newstr;
+     var count = newstr.match(/<p>/g)
+     }  
+</script>
+  {% include "header_tags.html" %}
+</head>
+<body>
+
+<div align="center">
+
+<h1>{{ survey.title }}</h1>
+
+{% thanks_for_entering request forms survey %}
+
+<div align="center" class="survdesc">
+<p>{% firstof survey.description survey.tease %} </p>
+</div>
+
+{% if forms %}
+  <form method="POST" enctype="multipart/form-data" class="survey">
+    {% for form in forms %}
+     {% for field in form %}
+         <div class="fieldWrapper">
+             {{ field.errors }}
+             {{ field.label_tag }} {{ field }} {{ field.help_text }} 
+         </div>
+      {% endfor %}
+    {% endfor %}
+    <div align="center" >
+    <input type="submit" value="Submit"/>
+    </div>
+  </form>
+{% endif %}
+
+</div>
+
+</body>
+</html>
